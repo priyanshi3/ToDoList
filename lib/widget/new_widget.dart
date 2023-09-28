@@ -29,6 +29,19 @@ class _NewWidgetState extends State<NewWidget> {
   final descriptionController = TextEditingController();
   final dateController = TextEditingController();
   bool repeatController = false;
+  var repeatOnValue = "Daily";
+
+  final items = [
+    "Daily",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+    "Weekend"
+  ];
 
   @override
   void dispose() {
@@ -74,6 +87,7 @@ class _NewWidgetState extends State<NewWidget> {
             decoration: InputDecoration(
               icon: Icon(Icons.calendar_today),
               labelText: 'Date',
+              iconColor: Colors.white,
             ),
             readOnly: true,
             onTap: () => selectdate(context),
@@ -100,6 +114,25 @@ class _NewWidgetState extends State<NewWidget> {
               ), //Checkbox
             ], //<Widget>[]
           ),
+          SizedBox(height: 10,),
+          if(repeatController)
+            DropdownButton(
+                value: repeatOnValue,
+                isExpanded: true,
+                icon: Icon(Icons.keyboard_arrow_down),
+                iconEnabledColor: Colors.white,
+                items: items.map((String items) {
+                  return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    repeatOnValue = value!;
+                  });
+                }
+            ),
           SizedBox(height: 30,),
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
@@ -132,6 +165,7 @@ class _NewWidgetState extends State<NewWidget> {
         description: descriptionController.text,
         date: DateTime.parse(dateController.text),
         repeating: repeatController,
+        repeatOn: repeatOnValue
       );
       final json = task.toJson();
       // final json = {
@@ -175,13 +209,15 @@ class Task {
   final String description;
   final DateTime date;
   final bool repeating;
+  final String repeatOn;
 
   Task({
     this.id = '',
     required this.title,
     required this.description,
     required this.date,
-    required this.repeating
+    required this.repeating,
+    required this.repeatOn
   });
 
   Map<String, dynamic> toJson() => {
@@ -189,6 +225,7 @@ class Task {
     'description' : description,
     'date' : date,
     'repeating' : repeating,
+    'repeatOn' : repeatOn
   };
 
   static Task fromJson(Map<String, dynamic> json) => Task (
@@ -196,6 +233,7 @@ class Task {
     title: json['title'],
     description: json['description'],
     date: json['date'].toDate(),
-    repeating: json['repeating']
+    repeating: json['repeating'],
+    repeatOn: json['repeatOn']
   );
 }

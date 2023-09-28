@@ -1,3 +1,5 @@
+import 'dart:js';
+import 'dart:js';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +14,6 @@ import '../widget/new_widget.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +27,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>NewWidget())
+                    MaterialPageRoute(builder: (context) => NewWidget())
                 );
               },
               child: Icon(Icons.add),
@@ -77,8 +78,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildTask(Task task) =>
-      Container(
+  Widget buildTask(Task task) => GestureDetector(
+      child: Container(
             child: Card(
               elevation: 10,
               color: Colors.white38,
@@ -118,20 +119,51 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 8,),
-                      Expanded(
-                        child: Center(
-                          child: Text(DateFormat("dd-MM-yyyy").format(task.date),
-                            style: TextStyle(fontSize: 23),),
+                      if(!task.repeating)
+                        Expanded(
+                          child: Center(
+                            child: Text(DateFormat("dd-MM-yyyy").format(task.date),
+                              style: TextStyle(fontSize: 23),),
+                          ),
                         ),
-                      ),
+                      if(task.repeating)
+                        Expanded (
+                          child: Center (
+                            child: Text(task.repeatOn,
+                              style: TextStyle(fontSize: 23),),
+                          )
+                        )
                     ],
                   ),
                 ),
               ),
             )
+        ),
+      onTap: () {
+        showDialog(builder: (BuildContext context) => _showTask(context), context: context,);
+      }
+     );
 
-      );
-  // );
+  Widget _showTask(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Popup example'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hello"),
+        ],
+      ),
+      actions: <Widget>[
+        new ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
 
   Stream<List<Task>> readTasks() =>
       FirebaseFirestore.instance.collection('tasks')

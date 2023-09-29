@@ -1,15 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:login/palette.dart';
 
 import '../main.dart';
-import '../page/forgot_password_page.dart';
-import '../utils.dart';
 
 class NewWidget extends StatefulWidget {
   // final VoidCallback? onRepeatSelected;
@@ -21,7 +15,6 @@ class NewWidget extends StatefulWidget {
 
   @override
   _NewWidgetState createState() => _NewWidgetState();
-
 }
 
 class _NewWidgetState extends State<NewWidget> {
@@ -54,119 +47,134 @@ class _NewWidgetState extends State<NewWidget> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: SingleChildScrollView(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 60,),
-          Text(
-            'Add New Task',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 40,),
-          TextField(
-            controller: titleController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(labelText: 'Title'),
-          ),
-          SizedBox(height: 4,),
-          TextField(
-            controller: descriptionController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(labelText: 'Description'),
-          ),
-          SizedBox(height: 4,),
-          TextField(
-            controller: dateController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              icon: Icon(Icons.calendar_today),
-              labelText: 'Date',
-              iconColor: Colors.white,
-            ),
-            readOnly: true,
-            onTap: () => selectdate(context),
-          ),
-          SizedBox(height: 4,),
-          Row(
-            children: <Widget>[
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               SizedBox(
-                width: 10,
-              ), //SizedBox
+                height: 60,
+              ),
               Text(
-                'Repeat ',
-                style: TextStyle(fontSize: 17.0),
-              ), //Text
-              SizedBox(width: 10), //SizedBox
-              /** Checkbox Widget **/
-              Checkbox(
-                value: repeatController,
-                onChanged: (bool? value) {
-                  setState(() {
-                    repeatController = value!;
-                  });
-                },
-              ), //Checkbox
-            ], //<Widget>[]
+                'Add New Task',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              TextField(
+                controller: titleController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(labelText: 'Title'),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              TextField(
+                controller: descriptionController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(labelText: 'Description'),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              TextField(
+                controller: dateController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.calendar_today),
+                  labelText: 'Date',
+                  iconColor: Colors.white,
+                ),
+                readOnly: true,
+                onTap: () => selectdate(context),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 10,
+                  ), //SizedBox
+                  Text(
+                    'Repeat ',
+                    style: TextStyle(fontSize: 17.0),
+                  ), //Text
+                  SizedBox(width: 10), //SizedBox
+                  /** Checkbox Widget **/
+                  Checkbox(
+                    value: repeatController,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        repeatController = value!;
+                      });
+                    },
+                  ), //Checkbox
+                ], //<Widget>[]
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              if (repeatController)
+                DropdownButton(
+                    value: repeatOnValue,
+                    isExpanded: true,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    iconEnabledColor: Colors.white,
+                    items: items.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text(items),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        repeatOnValue = value!;
+                      });
+                    }),
+              SizedBox(
+                height: 30,
+              ),
+              ElevatedButton.icon(
+                style:
+                    ElevatedButton.styleFrom(minimumSize: Size.fromHeight(50)),
+                icon: Icon(
+                  Icons.task_alt,
+                  size: 32,
+                ),
+                label: Text(
+                  'Add Task',
+                  style: TextStyle(fontSize: 24),
+                ),
+                onPressed: addTask,
+              ),
+            ],
           ),
-          SizedBox(height: 10,),
-          if(repeatController)
-            DropdownButton(
-                value: repeatOnValue,
-                isExpanded: true,
-                icon: Icon(Icons.keyboard_arrow_down),
-                iconEnabledColor: Colors.white,
-                items: items.map((String items) {
-                  return DropdownMenuItem(
-                      value: items,
-                      child: Text(items),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    repeatOnValue = value!;
-                  });
-                }
-            ),
-          SizedBox(height: 30,),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-                minimumSize: Size.fromHeight(50)
-            ),
-            icon: Icon(Icons.task_alt, size: 32,),
-            label: Text(
-              'Add Task',
-              style: TextStyle(fontSize: 24),
-            ),
-            onPressed: addTask,
-          ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   Future addTask() async {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator(),)
-    );
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
 
     try {
       final newtask = FirebaseFirestore.instance.collection('tasks').doc();
       final task = Task(
-        id: newtask.id,
-        title: titleController.text,
-        description: descriptionController.text,
-        date: DateTime.parse(dateController.text),
-        repeating: repeatController,
-        repeatOn: repeatOnValue
-      );
+          id: newtask.id,
+          title: titleController.text,
+          description: descriptionController.text,
+          date: DateTime.parse(dateController.text),
+          repeating: repeatController,
+          repeatOn: repeatOnValue);
       final json = task.toJson();
       // final json = {
       //   'title' : titleController.text,
@@ -177,9 +185,7 @@ class _NewWidgetState extends State<NewWidget> {
       //write to firebase
       await newtask.set(json);
       print(json);
-
-    }
-    on FirebaseFirestore catch (e) {
+    } on FirebaseFirestore catch (e) {
       print(e);
 
       // Utils.showSnackBar(e);
@@ -192,12 +198,12 @@ class _NewWidgetState extends State<NewWidget> {
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
-        lastDate: DateTime(2300)
-    );
-    if(pickedDate != null) {
+        lastDate: DateTime(2300));
+    if (pickedDate != null) {
       String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       setState(() {
-        dateController.text = formattedDate; //set output date to TextField value.
+        dateController.text =
+            formattedDate; //set output date to TextField value.
       });
     }
   }
@@ -211,29 +217,27 @@ class Task {
   final bool repeating;
   final String repeatOn;
 
-  Task({
-    this.id = '',
-    required this.title,
-    required this.description,
-    required this.date,
-    required this.repeating,
-    required this.repeatOn
-  });
+  Task(
+      {this.id = '',
+      required this.title,
+      required this.description,
+      required this.date,
+      required this.repeating,
+      required this.repeatOn});
 
   Map<String, dynamic> toJson() => {
-    'title' : title,
-    'description' : description,
-    'date' : date,
-    'repeating' : repeating,
-    'repeatOn' : repeatOn
-  };
+        'title': title,
+        'description': description,
+        'date': date,
+        'repeating': repeating,
+        'repeatOn': repeatOn
+      };
 
-  static Task fromJson(Map<String, dynamic> json) => Task (
-    // id: json['id'],
-    title: json['title'],
-    description: json['description'],
-    date: json['date'].toDate(),
-    repeating: json['repeating'],
-    repeatOn: json['repeatOn']
-  );
+  static Task fromJson(Map<String, dynamic> json) => Task(
+      // id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      date: json['date'].toDate(),
+      repeating: json['repeating'],
+      repeatOn: json['repeatOn']);
 }

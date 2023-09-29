@@ -6,8 +6,6 @@ import 'package:login/page/verify_email_page.dart';
 import 'package:login/palette.dart';
 import 'package:login/utils.dart';
 
-import 'page/home_page.dart';
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -22,40 +20,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    scaffoldMessengerKey: Utils.messengerKey,
-    navigatorKey: navigatorKey,
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData.dark().copyWith(
-      colorScheme: ColorScheme.fromSwatch(primarySwatch: Palette.Dark)
-          .copyWith(secondary: Colors.tealAccent),
-    ),
-    home: MainPage()
-  );
-
+      scaffoldMessengerKey: Utils.messengerKey,
+      navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
+      title: title,
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Palette.Dark)
+            .copyWith(secondary: Colors.redAccent.shade100),
+      ),
+      home: MainPage());
 }
-
 
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: StreamBuilder<User?> (
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator(),);
-        }
-        else if(snapshot.hasError) {
-          return Center(child: Text('Something went wrong!'),);
-        }
-        else if(snapshot.hasData) {
-         return VerifyEmailPage();
-        }
-        else {
-          return AuthPage();
-        }
-      },
-    )
-  );
-
+          body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Something went wrong!'),
+            );
+          } else if (snapshot.hasData) {
+            return VerifyEmailPage();
+          } else {
+            return AuthPage();
+          }
+        },
+      ));
 }

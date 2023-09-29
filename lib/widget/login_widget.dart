@@ -1,4 +1,4 @@
-
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -18,7 +18,6 @@ class LoginWidget extends StatefulWidget {
 
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
-
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
@@ -34,93 +33,144 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-    padding: EdgeInsets.all(16),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(height: 60,),
-        Text(
-          'Login',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 40,),
-        TextField(
-          controller: emailController,
-          cursorColor: Colors.white,
-          textInputAction: TextInputAction.next,
-          decoration: InputDecoration(labelText: 'Email'),
-        ),
-        SizedBox(height: 4,),
-        TextField(
-          controller: passwordController,
-          textInputAction: TextInputAction.done,
-          decoration: InputDecoration(labelText: 'Password'),
-          obscureText: true,
-        ),
-        SizedBox(height: 20,),
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size.fromHeight(50)
-          ),
-          icon: Icon(Icons.lock_open, size: 32,),
-          label: Text(
-            'Sign In',
-            style: TextStyle(fontSize: 24),
-          ),
-          onPressed: signIn,
-        ),
-        SizedBox(height: 24,),
-        GestureDetector(
-          child: Text(
-            'Forgot Password?',
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-              color: Theme.of(context).colorScheme.secondary,
-              fontSize: 20,
-            ),
-          ),
-          onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ForgotPasswordPage(),
-          )),
-        ),
-        SizedBox(height: 16,),
-        RichText(
-          text: TextSpan(
-            style: TextStyle(color: Colors.white, fontSize: 20),
-            text: 'No account?  ',
+  Widget build(BuildContext context) => Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextSpan(
-                recognizer: TapGestureRecognizer()
-                  ..onTap = widget.onClickedSignUp,
-                text: 'Sign Up',
+              Text(
+                'TaskWhiz',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  decoration: TextDecoration.underline,
-                  color: Theme.of(context).colorScheme.secondary,
-                )
+                    fontFamily: 'Kablammo',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 45,
+                    color: Colors.red.shade800),
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              Text(
+                'Welcome Back',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MarckScript',
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              TextFormField(
+                controller: emailController,
+                cursorColor: Colors.white,
+                textInputAction: TextInputAction.next,
+                style: TextStyle(fontFamily: 'Satisfy'),
+                decoration: InputDecoration(
+                    labelText: 'Email',
+                    labelStyle: TextStyle(fontFamily: 'Satisfy'),
+                    errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (email) =>
+                    email != null && !EmailValidator.validate(email)
+                        ? 'Enter a valid email'
+                        : null,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              TextField(
+                controller: passwordController,
+                textInputAction: TextInputAction.done,
+                style: TextStyle(fontFamily: 'Satisfy'),
+                decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(fontFamily: 'Satisfy'),
+                    errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                obscureText: true,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size.fromHeight(40),
+                      backgroundColor: Colors.red.shade800,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                  onPressed: signIn,
+                  child: Text(
+                    'log in',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: 'MarckScript',
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                child: Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontFamily: 'Satisfy',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ForgotPasswordPage(),
+                )),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              RichText(
+                text: TextSpan(
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'Satisfy'),
+                    text: 'no account?  ',
+                    children: [
+                      TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = widget.onClickedSignUp,
+                          text: 'sign up',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ))
+                    ]),
               )
-            ]
+            ],
           ),
-        )
-      ],
-    ),
-  );
+        ),
+      );
 
   Future signIn() async {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator(),)
-    );
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-    }
-    on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       print(e);
 
       Utils.showSnackBar(e.message);

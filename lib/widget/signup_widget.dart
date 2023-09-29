@@ -1,4 +1,3 @@
-
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +16,6 @@ class SignUpWidget extends StatefulWidget {
 
   @override
   _SignUpWidgetState createState() => _SignUpWidgetState();
-
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
@@ -34,80 +32,122 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-    padding: EdgeInsets.all(16),
-    child: Form(
-      key: formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 60,),
-          Text(
-            'Hey There, \n Welcome Back',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 40,),
-          TextFormField(
-            controller: emailController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(labelText: 'Email'),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (email) =>
-                email != null && !EmailValidator.validate(email)
-                    ? 'Enter a valid email' : null,
-          ),
-          SizedBox(height: 4,),
-          TextFormField(
-            controller: passwordController,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (value) =>
-                value != null && value.length < 6
-                    ? 'Enter minimum 6 characters' : null,
-          ),
-          SizedBox(height: 20,),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.fromHeight(50),
-            ),
-            icon: Icon(Icons.arrow_forward, size: 32),
-            label: Text(
-              'Sign Up',
-              style: TextStyle(fontSize: 24),
-            ),
-            onPressed: signUp,
-          ),
-          SizedBox(height: 20,),
-          RichText(
-            text: TextSpan(
-              style: TextStyle(color: Colors.white, fontSize: 20),
-              text: 'Already have an account? ',
+  Widget build(BuildContext context) => Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TextSpan(
-                  recognizer: TapGestureRecognizer()
-                      ..onTap = widget.onClickedSignIn,
-                  text: 'Log In',
+                Text(
+                  'TaskWhiz',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Theme.of(context).colorScheme.secondary
+                      fontFamily: 'Kablammo',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 45,
+                      color: Colors.red.shade800),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                Text(
+                  'Join Us',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'MarckScript'),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                TextFormField(
+                  controller: emailController,
+                  cursorColor: Colors.white,
+                  textInputAction: TextInputAction.next,
+                  style: TextStyle(fontFamily: 'Satisfy'),
+                  decoration: InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: TextStyle(fontFamily: 'Satisfy'),
+                      errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (email) =>
+                      email != null && !EmailValidator.validate(email)
+                          ? 'Enter a valid email'
+                          : null,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  textInputAction: TextInputAction.next,
+                  style: TextStyle(fontFamily: 'Satisfy'),
+                  decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: TextStyle(fontFamily: 'Satisfy'),
+                      errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                  obscureText: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) => value != null && value.length < 6
+                      ? 'Enter minimum 6 characters'
+                      : null,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size.fromHeight(40),
+                        backgroundColor: Colors.red.shade800,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                    onPressed: signUp,
+                    child: Text(
+                      'register',
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: 'MarckScript',
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-              ]
+                SizedBox(
+                  height: 20,
+                ),
+                RichText(
+                  text: TextSpan(
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: 'Satisfy',
+                      ),
+                      text: 'Already have an account? ',
+                      children: [
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = widget.onClickedSignIn,
+                          text: 'Log In',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Theme.of(context).colorScheme.secondary),
+                        ),
+                      ]),
+                )
+              ],
             ),
-          )
-        ],
-      ),
-    ),
-  );
+          ),
+        ),
+      );
 
   Future signUp() async {
-
     final isValid = formKey.currentState!.validate();
-    if(!isValid) return;
+    if (!isValid) return;
 
     // showDialog(
     //     context: context,
@@ -118,15 +158,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
-          password: passwordController.text.trim()
-      );
+          password: passwordController.text.trim());
       Navigator.of(context).popUntil((route) => route.isFirst);
-    } on FirebaseAuthException catch (e)  {
+    } on FirebaseAuthException catch (e) {
       print(e);
 
       Utils.showSnackBar(e.message);
       Navigator.of(context).popUntil((route) => route.isFirst);
     }
   }
-
 }

@@ -1,9 +1,9 @@
-
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:login/page/home_screen.dart';
 
 import '../utils.dart';
 import 'home_page.dart';
@@ -24,12 +24,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
-    if(!isEmailVerified) {
+    if (!isEmailVerified) {
       sendVerificationEmail();
 
       timer = Timer.periodic(
         Duration(seconds: 3),
-          (_) => checkEmailVerified(),
+        (_) => checkEmailVerified(),
       );
     }
   }
@@ -42,12 +42,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   Future checkEmailVerified() async {
     //call after email verification
-      await FirebaseAuth.instance.currentUser!.reload();
-      setState(() {
-        isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-      });
+    await FirebaseAuth.instance.currentUser!.reload();
+    setState(() {
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    });
 
-      if(isEmailVerified) timer?.cancel();
+    if (isEmailVerified) timer?.cancel();
   }
 
   Future sendVerificationEmail() async {
@@ -65,7 +65,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? HomePage()
+      ? HomeScreen()
       : Scaffold(
           appBar: AppBar(
             title: Text('Verify Email'),
@@ -80,19 +80,26 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   style: TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 24,),
+                SizedBox(
+                  height: 24,
+                ),
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(50),
                   ),
-                  icon: Icon(Icons.email, size: 32,),
+                  icon: Icon(
+                    Icons.email,
+                    size: 32,
+                  ),
                   label: Text(
                     'Resent Email',
                     style: TextStyle(fontSize: 24),
                   ),
                   onPressed: canResendEmail ? sendVerificationEmail : null,
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 TextButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size.fromHeight(50),
@@ -105,6 +112,5 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 )
               ],
             ),
-          )
-      );
+          ));
 }

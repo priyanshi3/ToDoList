@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'MarckScript',
+                  fontFamily: 'SofiaSans',
                 ),
               ),
               SizedBox(height: 10),
@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'Satisfy',
+                  fontFamily: 'SofiaSans',
                 ),
               ),
               SizedBox(height: 16),
@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'Email: ${_user!.email}',
                 style: TextStyle(
                   fontSize: 16,
-                  fontFamily: 'MarckScript',
+                  fontFamily: 'SofiaSans',
                 ),
               ),
               SizedBox(height: 24),
@@ -155,7 +155,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildEditProfileDialog() {
     return AlertDialog(
-      title: Text('Edit Profile'),
+      title: Text(
+        'Edit Profile',
+        style: TextStyle(
+          fontFamily: 'SofiaSans',
+          fontSize: 24,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -164,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               controller: _nameController,
               decoration: InputDecoration(labelText: 'Your name'),
               style: TextStyle(
-                fontFamily: 'Satisfy',
+                fontFamily: 'SofiaSans',
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
               ),
@@ -182,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Text(
             'Cancel',
             style: TextStyle(
-              fontFamily: 'Satisfy',
+              fontFamily: 'SofiaSans',
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
@@ -196,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Text(
             'Save',
             style: TextStyle(
-              fontFamily: 'Satisfy',
+              fontFamily: 'SofiaSans',
               fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
@@ -213,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Text(
           'Select Profile Image:',
           style: TextStyle(
-              fontFamily: 'MarckScript',
+              fontFamily: 'SofiaSans',
               fontSize: 12,
               fontWeight: FontWeight.w600),
         ),

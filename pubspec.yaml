@@ -54,3 +54,6 @@ flutter:
     - family: Satisfy
       fonts:
         - asset: fonts/Satisfy-Regular.ttf
+    - family: SofiaSans
+      fonts:
+        - asset: fonts/SofiaSans-Regular.ttf

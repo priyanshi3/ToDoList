@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:login/screens/add_task_screen.dart';
 import 'package:login/screens/profile_screen.dart';
 import 'package:login/screens/timer_screen.dart';
 
+import '../screens/daily_schedule_screen.dart';
 import '../widget/new_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 3;
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         heroTag: "AddTask",
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NewWidget()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddTaskScreen()));
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.red.shade800,
@@ -73,11 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _getBody() {
     switch (_currentIndex) {
       case 0:
-        return Container(
-          child: Center(
-            child: Text('Daily '),
-          ),
-        );
+        return DailySchedule();
       case 1:
         return Container(
           child: Center(

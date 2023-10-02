@@ -59,7 +59,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'MarckScript'),
+                      fontFamily: 'SofiaSans'),
                 ),
                 SizedBox(
                   height: 40,
@@ -68,11 +68,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   controller: emailController,
                   cursorColor: Colors.white,
                   textInputAction: TextInputAction.next,
-                  style: TextStyle(fontFamily: 'Satisfy'),
+                  style: TextStyle(fontFamily: 'SofiaSans'),
                   decoration: InputDecoration(
                       labelText: 'Email',
-                      labelStyle: TextStyle(fontFamily: 'Satisfy'),
-                      errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                      labelStyle: TextStyle(fontFamily: 'SofiaSans'),
+                      errorStyle: TextStyle(fontFamily: 'SofiaSans')),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (email) =>
                       email != null && !EmailValidator.validate(email)
@@ -85,11 +85,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 TextFormField(
                   controller: passwordController,
                   textInputAction: TextInputAction.next,
-                  style: TextStyle(fontFamily: 'Satisfy'),
+                  style: TextStyle(fontFamily: 'SofiaSans'),
                   decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle: TextStyle(fontFamily: 'Satisfy'),
-                      errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                      labelStyle: TextStyle(fontFamily: 'SofiaSans'),
+                      errorStyle: TextStyle(fontFamily: 'SofiaSans')),
                   obscureText: true,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) => value != null && value.length < 6
@@ -109,10 +109,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             borderRadius: BorderRadius.circular(20))),
                     onPressed: signUp,
                     child: Text(
-                      'register',
+                      'Register',
                       style: TextStyle(
                           fontSize: 24,
-                          fontFamily: 'MarckScript',
+                          fontFamily: 'SofiaSans',
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -125,7 +125,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,
-                        fontFamily: 'Satisfy',
+                        fontFamily: 'SofiaSans',
                       ),
                       text: 'Already have an account? ',
                       children: [

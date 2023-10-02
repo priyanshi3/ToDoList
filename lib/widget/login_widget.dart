@@ -58,7 +58,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'MarckScript',
+                  fontFamily: 'SofiaSans',
                 ),
               ),
               SizedBox(
@@ -68,11 +68,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                 controller: emailController,
                 cursorColor: Colors.white,
                 textInputAction: TextInputAction.next,
-                style: TextStyle(fontFamily: 'Satisfy'),
+                style: TextStyle(fontFamily: 'SofiaSans'),
                 decoration: InputDecoration(
                     labelText: 'Email',
-                    labelStyle: TextStyle(fontFamily: 'Satisfy'),
-                    errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                    labelStyle: TextStyle(fontFamily: 'SofiaSans'),
+                    errorStyle: TextStyle(fontFamily: 'SofiaSans')),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (email) =>
                     email != null && !EmailValidator.validate(email)
@@ -85,11 +85,11 @@ class _LoginWidgetState extends State<LoginWidget> {
               TextField(
                 controller: passwordController,
                 textInputAction: TextInputAction.done,
-                style: TextStyle(fontFamily: 'Satisfy'),
+                style: TextStyle(fontFamily: 'SofiaSans'),
                 decoration: InputDecoration(
                     labelText: 'Password',
-                    labelStyle: TextStyle(fontFamily: 'Satisfy'),
-                    errorStyle: TextStyle(fontFamily: 'Satisfy')),
+                    labelStyle: TextStyle(fontFamily: 'SofiaSans'),
+                    errorStyle: TextStyle(fontFamily: 'SofiaSans')),
                 obscureText: true,
               ),
               SizedBox(
@@ -105,10 +105,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                           borderRadius: BorderRadius.circular(20))),
                   onPressed: signIn,
                   child: Text(
-                    'log in',
+                    'Log in',
                     style: TextStyle(
                         fontSize: 24,
-                        fontFamily: 'MarckScript',
+                        fontFamily: 'SofiaSans',
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -122,7 +122,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Theme.of(context).colorScheme.secondary,
-                    fontFamily: 'Satisfy',
+                    fontFamily: 'MarckScript',
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
@@ -139,7 +139,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
-                        fontFamily: 'Satisfy'),
+                        fontFamily: 'SofiaSans'),
                     text: 'no account?  ',
                     children: [
                       TextSpan(

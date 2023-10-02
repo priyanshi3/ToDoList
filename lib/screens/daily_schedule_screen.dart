@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:login/screens/add_task_screen.dart';
 
 class DailySchedule extends StatefulWidget {
-  const DailySchedule({super.key});
+  const DailySchedule({Key? key}) : super(key: key);
 
   @override
   State<DailySchedule> createState() => _DailyScheduleState();
@@ -12,18 +12,19 @@ class DailySchedule extends StatefulWidget {
 
 class _DailyScheduleState extends State<DailySchedule> {
   late User? _user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder<List<Task>>(
-        future: getTasksForToday(),
+        future: getIncompleteTasksForToday(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No tasks for today.'));
+            return Center(child: Text('No incomplete tasks for today.'));
           } else {
             return ListView.builder(
               itemCount: snapshot.data!.length,
@@ -34,14 +35,15 @@ class _DailyScheduleState extends State<DailySchedule> {
                   subtitle: Text(task.description),
                   trailing: Checkbox(
                     value: task.completed,
-                    onChanged: (bool? value) {
-                      // Update the task as completed in your data source
-                      // You might have a method like updateTaskCompletionStatus(task.id, value)
-                      // and then call setState to update the UI
-                      setState(() {
-                        task.completed = value!;
-                      });
+                    onChanged: (bool? value) async {
+                      await updateTaskCompletionStatus(task.id, value ?? false);
+                      setState(() {});
                     },
+                    shape: CircleBorder(),
+                    side: BorderSide(color: Colors.white),
+                    activeColor: Colors.redAccent,
+                    checkColor: Colors.white,
+                    visualDensity: VisualDensity.adaptivePlatformDensity,
                   ),
                 );
               },
@@ -52,30 +54,44 @@ class _DailyScheduleState extends State<DailySchedule> {
     );
   }
 
-  Future<List<Task>> getTasksForToday() async {
+  Future<void> updateTaskCompletionStatus(String taskId, bool completed) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Tasks')
+          .doc(taskId)
+          .update({'completed': completed});
+    } catch (e) {
+      print('Error updating task completion status: $e');
+    }
+  }
+
+  Future<List<Task>> getIncompleteTasksForToday() async {
     // Get the current date without the time part
     DateTime today = DateTime.now();
     today = DateTime(today.year, today.month, today.day);
 
+    // Get the end of the day (11:59:59.999)
+    DateTime endOfDay =
+        today.add(Duration(days: 1)).subtract(Duration(milliseconds: 1));
+
     try {
-      // Query Firestore for tasks with a date equal to today
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('Tasks')
-          .where('userId',
-              isEqualTo: _user!.uid) // Assuming each task has a userId field
+          .where('userId', isEqualTo: _user!.uid)
           .where('date', isGreaterThanOrEqualTo: today)
-          .where('date', isLessThan: today.add(Duration(days: 1)))
+          .where('date', isLessThan: endOfDay)
+          .where('completed', isEqualTo: false)
           .get();
 
       // Parse the retrieved data into a list of Task objects
       List<Task> tasks = querySnapshot.docs.map((doc) {
-        return Task.fromJson(doc.data() as Map<String, dynamic>);
+        return Task.fromJson(doc.data() as Map<String, dynamic>)..id = doc.id;
       }).toList();
-
+      print("tasks:");
+      print(tasks);
       return tasks;
     } catch (e) {
-      // Handle any errors that might occur during the data fetching
-      print('Error fetching tasks for today: $e');
+      print('Error fetching incomplete tasks for today: $e');
       return [];
     }
   }

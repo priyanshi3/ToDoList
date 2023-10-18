@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../shared/RoundButton.dart';
+import '../widget/shared/RoundButton.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({Key? key});

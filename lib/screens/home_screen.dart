@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:login/screens/add_task_screen.dart';
-import 'package:login/screens/profile_screen.dart';
-import 'package:login/screens/timer_screen.dart';
+import 'package:TaskWhiz/screens/add_task_screen.dart';
+import 'package:TaskWhiz/screens/all_tasks_screen.dart';
+import 'package:TaskWhiz/screens/profile_screen.dart';
+import 'package:TaskWhiz/screens/timer_screen.dart';
 
-import '../screens/daily_schedule_screen.dart';
+import 'daily_schedule_screen.dart';
 import '../widget/new_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.view_week_outlined),
-            label: 'Weekly',
+            label: 'Tasks',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.timer),
@@ -77,11 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         return DailySchedule();
       case 1:
-        return Container(
-          child: Center(
-            child: Text('Weekly Schedule'),
-          ),
-        );
+        return AllTasksScreen();
       case 2:
         return TimerScreen();
       case 3:

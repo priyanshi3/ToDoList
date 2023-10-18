@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:login/screens/add_task_screen.dart';
+import 'package:TaskWhiz/screens/add_task_screen.dart';
 
 class DailySchedule extends StatefulWidget {
   const DailySchedule({Key? key}) : super(key: key);
@@ -36,8 +36,11 @@ class _DailyScheduleState extends State<DailySchedule> {
                   trailing: Checkbox(
                     value: task.completed,
                     onChanged: (bool? value) async {
-                      await updateTaskCompletionStatus(task.id, value ?? false);
-                      setState(() {});
+                      await updateTaskCompletionStatus(task, value ?? false);
+                      // Update only the local list, not the one obtained from the snapshot
+                      setState(() {
+                        task.completed = value ?? false;
+                      });
                     },
                     shape: CircleBorder(),
                     side: BorderSide(color: Colors.white),
@@ -54,12 +57,25 @@ class _DailyScheduleState extends State<DailySchedule> {
     );
   }
 
-  Future<void> updateTaskCompletionStatus(String taskId, bool completed) async {
+  Future<void> updateTaskCompletionStatus(Task task, bool completed) async {
     try {
-      await FirebaseFirestore.instance
-          .collection('Tasks')
-          .doc(taskId)
-          .update({'completed': completed});
+      if (task.repeating) {
+        // If it's a repeating task, update the date to the next occurrence
+        DateTime nextOccurrence = task.date.add(Duration(days: 1));
+        await FirebaseFirestore.instance
+            .collection('Tasks')
+            .doc(task.id)
+            .update({
+          'completed': completed,
+          'date': nextOccurrence,
+        });
+      } else {
+        // If it's a one-time task, update the completion status directly
+        await FirebaseFirestore.instance
+            .collection('Tasks')
+            .doc(task.id)
+            .update({'completed': completed});
+      }
     } catch (e) {
       print('Error updating task completion status: $e');
     }
@@ -87,6 +103,25 @@ class _DailyScheduleState extends State<DailySchedule> {
       List<Task> tasks = querySnapshot.docs.map((doc) {
         return Task.fromJson(doc.data() as Map<String, dynamic>)..id = doc.id;
       }).toList();
+
+      // Include incomplete repeating tasks from the past
+      QuerySnapshot repeatingTasksSnapshot = await FirebaseFirestore.instance
+          .collection('Tasks')
+          .where('userId', isEqualTo: _user!.uid)
+          .where('repeating', isEqualTo: true)
+          .where('completed', isEqualTo: false)
+          .get();
+
+      List<Task> repeatingTasks = repeatingTasksSnapshot.docs
+          .map((doc) {
+            return Task.fromJson(doc.data() as Map<String, dynamic>)
+              ..id = doc.id;
+          })
+          .where((task) => !tasks.contains(task))
+          .toList();
+
+      tasks.addAll(repeatingTasks);
+
       print("tasks:");
       print(tasks);
       return tasks;

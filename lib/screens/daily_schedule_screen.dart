@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:TaskWhiz/screens/add_task_screen.dart';
@@ -12,6 +16,7 @@ class DailySchedule extends StatefulWidget {
 
 class _DailyScheduleState extends State<DailySchedule> {
   late User? _user = FirebaseAuth.instance.currentUser;
+  AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +36,19 @@ class _DailyScheduleState extends State<DailySchedule> {
               itemBuilder: (context, index) {
                 Task task = snapshot.data![index];
                 return ListTile(
-                  title: Text(task.title),
-                  subtitle: Text(task.description),
+                  title: Text(
+                    task.title,
+                    style: TextStyle(
+                      fontSize: 18.0, // Adjust the font size as needed
+                      fontWeight: FontWeight.bold, // Make the font bold
+                    ),
+                  ),
+                  subtitle: Text(
+                    task.description,
+                    style: TextStyle(
+                      fontSize: 14.0, // Adjust the font size as needed
+                    ),
+                  ),
                   trailing: Checkbox(
                     value: task.completed,
                     onChanged: (bool? value) async {
@@ -41,6 +57,7 @@ class _DailyScheduleState extends State<DailySchedule> {
                       setState(() {
                         task.completed = value ?? false;
                       });
+                      _taskCompleted();
                     },
                     shape: CircleBorder(),
                     side: BorderSide(color: Colors.white),
@@ -129,5 +146,23 @@ class _DailyScheduleState extends State<DailySchedule> {
       print('Error fetching incomplete tasks for today: $e');
       return [];
     }
+  }
+
+  Future<void> _taskCompleted() async {
+    try {
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/completed.mp3');
+      final data = await rootBundle.load('assets/complete.mp3');
+      await file.writeAsBytes(data.buffer.asUint8List());
+      await audioPlayer.play(UrlSource(file.path));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
   }
 }

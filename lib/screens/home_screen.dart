@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:TaskWhiz/screens/add_task_screen.dart';
-import 'package:TaskWhiz/screens/all_tasks_screen.dart';
-import 'package:TaskWhiz/screens/profile_screen.dart';
-import 'package:TaskWhiz/screens/timer_screen.dart';
+import 'package:TaskWhiz/screens/tasks/add_task_screen.dart';
+import 'package:TaskWhiz/screens/tasks/all_tasks_screen.dart';
+import 'package:TaskWhiz/screens/auth/profile_screen.dart';
+import 'package:TaskWhiz/screens/timer/timer_screen.dart';
 
-import 'daily_schedule_screen.dart';
-import '../widget/new_widget.dart';
+import 'tasks/daily_schedule_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

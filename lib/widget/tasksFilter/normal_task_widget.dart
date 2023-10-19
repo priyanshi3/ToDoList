@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:TaskWhiz/screens/add_task_screen.dart';
+import 'package:TaskWhiz/screens/tasks/add_task_screen.dart';
 import 'package:intl/intl.dart';
 
 class NormalTasksWidget extends StatefulWidget {

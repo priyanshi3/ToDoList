@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../main.dart';
+import '../../main.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({

@@ -11,7 +11,6 @@ class AllTasksScreen extends StatefulWidget {
 }
 
 class _AllTasksScreenState extends State<AllTasksScreen> {
-  late User? _user = FirebaseAuth.instance.currentUser;
   String _selectedTaskType = 'Normal'; // Default to show Normal tasks
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:TaskWhiz/screens/add_task_screen.dart';
+import 'package:TaskWhiz/screens/tasks/add_task_screen.dart';
 
 class RepeatingTasksWidget extends StatefulWidget {
   const RepeatingTasksWidget({Key? key, required this.type}) : super(key: key);

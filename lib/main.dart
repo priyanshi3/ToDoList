@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:TaskWhiz/screens/auth_screen.dart';
-import 'package:TaskWhiz/screens/verify_email_screen.dart';
+import 'package:TaskWhiz/screens/auth/auth_screen.dart';
+import 'package:TaskWhiz/screens/auth/verify_email_screen.dart';
 import 'package:TaskWhiz/palette.dart';
 import 'package:TaskWhiz/utils.dart';
 

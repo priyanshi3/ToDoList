@@ -11,15 +11,19 @@ class AllTasksScreen extends StatefulWidget {
 }
 
 class _AllTasksScreenState extends State<AllTasksScreen> {
-  late User? _user = FirebaseAuth.instance.currentUser;
   String _selectedTaskType = 'Normal'; // Default to show Normal tasks
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(16.0),
       child: Column(
         children: [
-          DropdownButton<String>(
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(
+              labelText: 'Select Task Type',
+              border: OutlineInputBorder(),
+            ),
             value: _selectedTaskType,
             onChanged: (String? newValue) {
               setState(() {
@@ -44,6 +48,7 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
               );
             }).toList(),
           ),
+          SizedBox(height: 16.0),
           Expanded(
             // Wrap with Expanded to take the remaining space
             child: _selectedTaskType == 'Normal'

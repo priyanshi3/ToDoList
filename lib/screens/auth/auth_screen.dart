@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import '../widget/login_widget.dart';
-import '../widget/signup_widget.dart';
+import '../../widget/auth/login_widget.dart';
+import '../../widget/auth/signup_widget.dart';
 
 class AuthPage extends StatefulWidget {
   @override

@@ -112,105 +112,129 @@ class _TimerScreenState extends State<TimerScreen>
     return Scaffold(
       backgroundColor: Colors.black12,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Stack(
-              alignment: Alignment.center,
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              'Focus Session',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Satisfy',
+              ),
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   width: 300,
                   height: 300,
-                  child: CircularProgressIndicator(
-                    value: progress,
-                    strokeWidth: 6,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (controller.isDismissed) {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => Container(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SizedBox(
+                          width: 300,
                           height: 300,
-                          color: Colors.white,
-                          child: CupertinoTimerPicker(
-                            initialTimerDuration: controller.duration!,
-                            onTimerDurationChanged: (time) {
-                              setState(() {
-                                controller.duration = time;
-                              });
-                            },
+                          child: CircularProgressIndicator(
+                            value: progress,
+                            strokeWidth: 6,
                           ),
                         ),
-                      );
-                    }
-                  },
-                  child: AnimatedBuilder(
-                    animation: controller,
-                    builder: (context, child) {
-                      return Text(
-                        countText,
-                        style: TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (controller.isDismissed) {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) => Container(
+                                height: 300,
+                                color: Colors.white,
+                                child: CupertinoTimerPicker(
+                                  initialTimerDuration: controller.duration!,
+                                  onTimerDurationChanged: (time) {
+                                    setState(() {
+                                      controller.duration = time;
+                                    });
+                                  },
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: AnimatedBuilder(
+                          animation: controller,
+                          builder: (context, child) {
+                            return Text(
+                              countText,
+                              style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (controller.isAnimating) {
-                              controller.stop();
-                              setState(() {
-                                isPlaying = false;
-                              });
-                              _stopRainSound(); // Stop rain sound
-                            } else {
-                              controller.reverse(
-                                  from: controller.value == 0.0
-                                      ? 1.0
-                                      : controller.value);
-                              setState(() {
-                                isPlaying = true;
-                              });
-                              _playRainSound(); // Play rain sound
-                            }
-                          },
-                          child: RoundButton(
-                            icon: isPlaying == true
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            controller.reset();
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 20,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (controller.isAnimating) {
+                            controller.stop();
                             setState(() {
                               isPlaying = false;
                             });
                             _stopRainSound(); // Stop rain sound
-                          },
-                          child: RoundButton(
-                            icon: Icons.stop,
-                          ),
-                        )
-                      ],
-                    ),
+                          } else {
+                            controller.reverse(
+                                from: controller.value == 0.0
+                                    ? 1.0
+                                    : controller.value);
+                            setState(() {
+                              isPlaying = true;
+                            });
+                            _playRainSound(); // Play rain sound
+                          }
+                        },
+                        child: RoundButton(
+                          icon: isPlaying == true
+                              ? Icons.pause
+                              : Icons.play_arrow,
+                          size: 80,
+                        ),
+                      ),
+                      SizedBox(width: 16), // Add spacing between buttons
+                      GestureDetector(
+                        onTap: () {
+                          controller.reset();
+                          setState(() {
+                            isPlaying = false;
+                          });
+                          _stopRainSound(); // Stop rain sound
+                        },
+                        child: RoundButton(
+                          icon: Icons.stop,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

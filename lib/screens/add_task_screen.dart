@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../main.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -187,10 +186,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   Future<void> selectdate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2300));
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2300),
+    );
     if (pickedDate != null) {
       String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       setState(() {
@@ -259,8 +259,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     final json = nextTask.toJson();
 
     try {
-      final newTaskDoc =
-          await FirebaseFirestore.instance.collection('Tasks').add(json);
+      // Use the existing document ID for the next repeating task
+      await FirebaseFirestore.instance
+          .collection('Tasks')
+          .doc(task.id)
+          .update(json);
       print('Next repeating task added successfully: $json');
     } catch (e) {
       print('Error adding next repeating task: $e');

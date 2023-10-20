@@ -22,11 +22,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _nameController = TextEditingController();
-    _loadUserData(); // Load user data when the screen is initialized
+    _loadUserData();
   }
 
   Future<void> _loadUserData() async {
-    // Assuming _user is not null here
     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
         .collection('User_Details')
@@ -34,7 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .get();
 
     if (snapshot.exists) {
-      // User data exists in the database
       setState(() {
         _nameController.text =
             snapshot.data()!['name'] ?? _generateRandomName();
@@ -42,10 +40,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _userDataLoaded = true;
       });
     } else {
-      // User data doesn't exist, generate a random name and select a random image
       _nameController.text = _generateRandomName();
       _selectedImageIndex = _generateRandomImageIndex();
-      _saveDetails(); // Save the initial details to the database
+      _saveDetails();
     }
   }
 

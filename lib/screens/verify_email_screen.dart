@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login/page/home_screen.dart';
-
+import 'package:TaskWhiz/screens/home_screen.dart';
 import '../utils.dart';
-import 'home_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   @override
